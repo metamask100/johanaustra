@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Una Noche de Amor ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#06001a;font-family:'Lora',serif;overflow-x:hidden}
+ 
+/* ── ESCENA ── */
+#scene{position:relative;width:100%;height:600px;overflow:hidden;background:linear-gradient(180deg,#06001a 0%,#130030 40%,#3d0660 68%,#7a1238 85%,#be3c1e 100%)}
+#starCanvas{position:absolute;inset:0;width:100%;height:100%}
+#moon{position:absolute;top:32px;right:78px;width:68px;height:68px;border-radius:50%;background:radial-gradient(circle at 38% 36%,#fffde0,#f5d560 55%,#dfa820);box-shadow:0 0 38px 10px rgba(255,220,70,.42),0 0 85px 28px rgba(255,195,35,.2);animation:moonPulse 3.2s ease-in-out infinite alternate}
+@keyframes moonPulse{to{box-shadow:0 0 58px 18px rgba(255,220,70,.62),0 0 115px 46px rgba(255,195,35,.32)}}
+#mainSvg{position:absolute;bottom:0;left:0;width:100%;height:100%}
+ 
+/* ── CARTA ── */
+#cartaSection{background:#06001a;padding:28px 14px 52px;display:flex;justify-content:center}
+.cw{width:100%;max-width:500px}
+.sobre{cursor:pointer;position:relative}
+.sobre-body{background:linear-gradient(145deg,#580068,#2e0048,#160030);border:1.5px solid #ae48d6;border-radius:10px;overflow:hidden;box-shadow:0 4px 38px rgba(145,0,250,.32)}
+.flap-wrap{width:100%;overflow:hidden;line-height:0}
+.flap{width:100%;display:block;transform-origin:top center;transition:transform .78s cubic-bezier(.38,1.9,.52,1)}
+.sobre.open .flap{transform:rotateX(180deg)}
+.sobre-in{padding:13px 22px 20px;text-align:center;min-height:50px;display:flex;align-items:center;justify-content:center}
+.hint{font-family:'Dancing Script',cursive;color:#c878ee;font-size:1.04rem;transition:opacity .3s}
+.btn-open{display:block;margin:13px auto 0;background:linear-gradient(130deg,#880058,#580090);color:#ffddf8;border:none;border-radius:28px;padding:11px 33px;font-family:'Dancing Script',cursive;font-size:1.18rem;cursor:pointer;box-shadow:0 3px 16px rgba(135,0,195,.44);transition:transform .14s,box-shadow .14s;letter-spacing:1px}
+.btn-open:hover{transform:scale(1.06);box-shadow:0 5px 26px rgba(175,0,250,.58)}
+.papel{width:100%;max-width:500px;margin:0 auto;background:linear-gradient(150deg,#fff7f4,#ffe2f2,#fddcf5);border:1.5px solid #ca68b8;border-radius:4px 4px 12px 12px;box-shadow:0 8px 48px rgba(185,0,155,.22);padding:30px 32px 36px;display:none;transform-origin:top center;position:relative;overflow:hidden}
+.papel::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(transparent,transparent 33px,rgba(185,75,165,.11) 34px);pointer-events:none}
+.papel.show{display:block;animation:unfold .85s cubic-bezier(.12,1.55,.38,1) forwards}
+@keyframes unfold{from{transform:scaleY(.03) translateY(-28px);opacity:0}to{transform:scaleY(1) translateY(0);opacity:1}}
+.p-date{font-style:italic;font-size:.8rem;color:#9e3272;text-align:right;margin-bottom:15px}
+.p-sal{font-family:'Dancing Script',cursive;font-size:1.7rem;color:#7a0048;margin-bottom:15px}
+.papel p{font-size:.96rem;color:#380026;line-height:1.9;margin-bottom:11px;font-style:italic}
+.p-firm{margin-top:24px;text-align:right;font-family:'Dancing Script',cursive;font-size:1.5rem;color:#880055}
+.btn-close{display:block;margin:18px auto 0;background:none;border:1.5px solid #b850a0;color:#880055;border-radius:20px;padding:7px 25px;font-family:'Dancing Script',cursive;font-size:1.03rem;cursor:pointer;transition:background .2s}
+.btn-close:hover{background:rgba(185,55,135,.1)}
+.hc{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hrt{position:absolute;animation:fhrt linear infinite;opacity:0}
+@keyframes fhrt{0%{opacity:0;transform:translateY(0) scale(.45) rotate(-12deg)}10%{opacity:.92}88%{opacity:.4}100%{opacity:0;transform:translateY(-310px) scale(1.3) rotate(18deg)}}
+ 
+/* OJOS ANIMADOS */
+.ojo-izq{animation:parpadeo 4s ease-in-out infinite}
+.ojo-der{animation:parpadeo 4s ease-in-out infinite .15s}
+@keyframes parpadeo{0%,88%,100%{transform:scaleY(1)}93%{transform:scaleY(0.07)}}
+.pupila-izq{animation:mirar 6s ease-in-out infinite}
+.pupila-der{animation:mirar 6s ease-in-out infinite .1s}
+@keyframes mirar{0%,100%{transform:translate(0,0)}30%{transform:translate(1.5px,-1px)}60%{transform:translate(-1px,1px)}80%{transform:translate(0.5px,-0.5px)}}
+</style>
+</head>
+<body>
+ 
+<div id="scene">
+  <canvas id="starCanvas"></canvas>
+  <div id="moon"></div>
+  <svg id="mainSvg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="gMBig" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#281048"/><stop offset="62%" stop-color="#140826"/><stop offset="100%" stop-color="#080016"/></linearGradient>
+      <linearGradient id="gMMid" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1c0838"/><stop offset="100%" stop-color="#060010"/></linearGradient>
+      <linearGradient id="gMFar" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#14062e"/><stop offset="100%" stop-color="#04000e"/></linearGradient>
+      <linearGradient id="gSnow" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="68%" stop-color="#e4d4ff" stop-opacity=".68"/><stop offset="100%" stop-color="#bca0da" stop-opacity=".08"/></linearGradient>
+      <linearGradient id="gSnowS" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f6eeff" stop-opacity=".88"/><stop offset="100%" stop-color="#c4aeea" stop-opacity=".12"/></linearGradient>
+      <linearGradient id="gGrass" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#240748"/><stop offset="100%" stop-color="#050015"/></linearGradient>
+ 
+      <!-- Vestido azul y blanco de la chica -->
+      <linearGradient id="gDressTop" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#4a8fd4"/>
+        <stop offset="50%" stop-color="#2060b0"/>
+        <stop offset="100%" stop-color="#1848a0"/>
+      </linearGradient>
+      <linearGradient id="gDressSkirt" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#5a9ae0"/>
+        <stop offset="40%" stop-color="#ffffff"/>
+        <stop offset="100%" stop-color="#e8f4ff"/>
+      </linearGradient>
+ 
+      <!-- Skin tones - piel muy blanca -->
+      <radialGradient id="gSkinF" cx="42%" cy="36%" r="64%"><stop offset="0%" stop-color="#fff8f5"/><stop offset="100%" stop-color="#f5e8df"/></radialGradient>
+      <radialGradient id="gSkinM" cx="42%" cy="36%" r="64%"><stop offset="0%" stop-color="#fff7f3"/><stop offset="100%" stop-color="#f4e7dd"/></radialGradient>
+ 
+      <!-- Ropa negra del hombre -->
+      <linearGradient id="gJacket" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a1a2e"/>
+        <stop offset="100%" stop-color="#0a0a18"/>
+      </linearGradient>
+ 
+      <radialGradient id="gMoonR" cx="50%" cy="0%" r="80%"><stop offset="0%" stop-color="#9858bc" stop-opacity=".16"/><stop offset="100%" stop-color="#06001a" stop-opacity="0"/></radialGradient>
+    </defs>
+ 
+    <rect width="1000" height="600" fill="url(#gMoonR)"/>
+ 
+    <!-- montañas lejanas -->
+    <polygon points="0,412 68,296 138,346 208,267 288,316 358,246 442,290 518,224 598,277 665,217 752,270 828,232 905,282 962,252 1000,292 1000,432 0,432" fill="url(#gMFar)" opacity=".74"/>
+    <polygon points="208,267 233,239 258,267" fill="url(#gSnow)" opacity=".38"/>
+    <polygon points="518,224 544,197 571,224" fill="url(#gSnow)" opacity=".34"/>
+    <polygon points="828,232 854,205 880,232" fill="url(#gSnow)" opacity=".37"/>
+ 
+    <!-- montañas medias -->
+    <polygon points="-10,460 83,326 162,372 252,298 352,348 446,274 532,318 615,262 702,312 802,257 890,306 972,271 1010,312 1010,465 -10,465" fill="url(#gMMid)"/>
+    <polygon points="252,298 279,268 308,298" fill="url(#gSnowS)" opacity=".54"/>
+    <polygon points="615,262 642,233 672,262" fill="url(#gSnowS)" opacity=".5"/>
+ 
+    <!-- montaña principal -->
+    <polygon points="83,548 500,66 918,548" fill="url(#gMBig)"/>
+    <polygon points="83,548 500,66 332,548" fill="#0c0420" opacity=".57"/>
+    <polygon points="918,548 500,66 662,548" fill="#0c0420" opacity=".47"/>
+    <polygon points="442,120 500,66 558,120 533,140 500,130 467,140" fill="url(#gSnow)"/>
+    <polygon points="420,152 442,120 558,120 580,152 554,170 500,156 446,170" fill="url(#gSnow)" opacity=".73"/>
+    <polygon points="400,186 420,152 580,152 600,186 568,204 500,189 432,204" fill="url(#gSnow)" opacity=".47"/>
+ 
+    <!-- montañas laterales -->
+    <polygon points="-10,548 122,314 282,548" fill="url(#gMMid)" opacity=".87"/>
+    <polygon points="122,314 150,285 181,314" fill="url(#gSnowS)" opacity=".57"/>
+    <polygon points="718,548 880,308 1010,548" fill="url(#gMMid)" opacity=".87"/>
+    <polygon points="880,308 908,280 938,308" fill="url(#gSnowS)" opacity=".57"/>
+ 
+    <!-- suelo -->
+    <path d="M0,542 Q250,527 500,532 Q750,527 1000,532 L1000,600 L0,600Z" fill="url(#gGrass)"/>
+    <path d="M0,556 Q500,546 1000,551 L1000,600 L0,600Z" fill="#060018"/>
+    <ellipse cx="172" cy="559" rx="23" ry="8" fill="#160826" opacity=".8"/>
+    <ellipse cx="823" cy="559" rx="19" ry="7" fill="#160826" opacity=".8"/>
+ 
+    <!-- manta -->
+    <path d="M350,543 Q430,528 500,531 Q570,528 650,543 Q660,548 500,552 Q340,548 350,543" fill="#3a0856" opacity=".88"/>
+    <path d="M362,543 Q500,534 638,543" stroke="#680fa0" stroke-width="1.4" fill="none" opacity=".5"/>
+ 
+    <!-- ══════════════════ CHICA ══════════════════ -->
+    <g transform="translate(402,512)">
+      <ellipse cx="0" cy="18" rx="28" ry="6" fill="#0a0018" opacity=".45"/>
+ 
+      <!-- piernas -->
+      <path d="M-8,14 Q-14,24 -26,27 Q-36,28 -41,23" stroke="#fff4ee" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <path d="M6,14 Q9,25 5,32 Q2,36 -2,33" stroke="#fff4ee" stroke-width="6.5" stroke-linecap="round" fill="none"/>
+      <ellipse cx="-43" cy="24" rx="8" ry="4" fill="#dde8f8"/>
+      <ellipse cx="-2" cy="34" rx="6" ry="3.5" fill="#dde8f8"/>
+ 
+      <!-- falda vestido azul→blanco -->
+      <path d="M-14,6 Q-30,18 -38,30 Q-18,40 0,38 Q18,40 36,28 Q24,16 14,6Z" fill="url(#gDressSkirt)"/>
+      <path d="M-28,28 Q0,39 28,26 Q14,33 0,32 Q-14,33 -28,28" fill="white" opacity=".7"/>
+      <path d="M-6,6 Q-9,19 -11,31" stroke="#90b8e8" stroke-width=".9" fill="none" opacity=".5"/>
+      <path d="M6,6 Q9,19 11,31" stroke="#90b8e8" stroke-width=".9" fill="none" opacity=".5"/>
+      <path d="M-13,9 Q-20,21 -26,29" stroke="#90b8e8" stroke-width=".8" fill="none" opacity=".4"/>
+      <path d="M13,9 Q20,21 26,27" stroke="#90b8e8" stroke-width=".8" fill="none" opacity=".4"/>
+ 
+      <!-- torso vestido azul -->
+      <path d="M-13,7 Q-12,-10 -4,-20 Q0,-25 4,-20 Q12,-10 13,7Z" fill="url(#gDressTop)"/>
+      <!-- cuello vestido blanco -->
+      <path d="M-7,-18 Q0,-13 7,-18 Q4,-10 0,-9 Q-4,-10 -7,-18Z" fill="white" opacity=".92"/>
+      <circle cx="0" cy="-5" r="1.4" fill="white" opacity=".8"/>
+      <circle cx="0" cy="1" r="1.4" fill="white" opacity=".65"/>
+ 
+      <!-- cuello piel -->
+      <rect x="-4" y="-22" width="8" height="10" rx="4" fill="#fff5f0"/>
+ 
+      <!-- CABEZA: centro (0,-36), radio 15. Rango: arriba -51, abajo -21 -->
+      <circle cx="0" cy="-36" r="15" fill="url(#gSkinF)"/>
+ 
+      <!-- PELO: paneles laterales DETRÁS de la cabeza, bajan hasta el hombro -->
+      <path d="M-13,-51 Q-18,-46 -19,-34 Q-20,-20 -19,-8 Q-18,2 -15,7 Q-12,10 -10,7 Q-9,2 -9,-10 Q-9,-24 -11,-38 Q-12,-47 -13,-51Z" fill="#0c0a14"/>
+      <path d="M13,-51 Q18,-46 19,-34 Q20,-20 19,-8 Q18,2 15,7 Q12,10 10,7 Q9,2 9,-10 Q9,-24 11,-38 Q12,-47 13,-51Z" fill="#0c0a14"/>
+      <!-- corona del pelo (parte de arriba) -->
+      <path d="M-13,-51 Q-6,-57 0,-58 Q6,-57 13,-51 Q14,-45 14,-36 Q13,-29 12,-24 Q10,-22 10,-24 Q11,-30 11,-38 Q9,-50 0,-55 Q-9,-50 -11,-38 Q-11,-30 -10,-24 Q-10,-22 -12,-24 Q-13,-29 -14,-36 Q-14,-45 -13,-51Z" fill="#0e0c16"/>
+      <!-- brillo pelo -->
+      <path d="M-2,-56 Q-2,-47 -2,-36" stroke="#2a2440" stroke-width="2" fill="none" opacity=".55" stroke-linecap="round"/>
+      <path d="M3,-55 Q3,-45 3,-34" stroke="#2a2440" stroke-width="1.3" fill="none" opacity=".38" stroke-linecap="round"/>
+ 
+      <!-- CEJAS: a ~6-7px sobre los ojos (ojos en -38, cejas en -44) -->
+      <path d="M-12,-44 Q-7,-47 -2,-45" stroke="#160c06" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M2,-45 Q7,-47 12,-44" stroke="#160c06" stroke-width="2" fill="none" stroke-linecap="round"/>
+ 
+      <!-- OJO IZQUIERDO: centro (-7,-38) — tercio superior de la cara -->
+      <g class="ojo-izq" style="transform-origin:-7px -38px">
+        <ellipse cx="-7" cy="-38" rx="6" ry="5" fill="white"/>
+        <circle cx="-7" cy="-38" r="3.5" fill="#5c3018"/>
+        <g class="pupila-izq" style="transform-origin:-7px -38px">
+          <circle cx="-7" cy="-38" r="2.1" fill="#080608"/>
+          <circle cx="-5.8" cy="-39.2" r="1.1" fill="white" opacity=".97"/>
+        </g>
+        <path d="M-13,-38 Q-7,-45 -1,-38" stroke="#160c06" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M-12.5,-38 Q-7,-33 -1.5,-38" stroke="#c08878" stroke-width=".7" fill="none" stroke-linecap="round" opacity=".4"/>
+        <!-- pestañas arrancando del arco del párpado -->
+        <line x1="-13" y1="-39" x2="-15" y2="-42" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="-10" y1="-43" x2="-11.5" y2="-46" stroke="#100808" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="-7" y1="-43.5" x2="-7" y2="-47" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="-4" y1="-43" x2="-3.5" y2="-46" stroke="#100808" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="-1" y1="-39" x2="1" y2="-42" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+      </g>
+ 
+      <!-- OJO DERECHO: centro (7,-38) -->
+      <g class="ojo-der" style="transform-origin:7px -38px">
+        <ellipse cx="7" cy="-38" rx="6" ry="5" fill="white"/>
+        <circle cx="7" cy="-38" r="3.5" fill="#5c3018"/>
+        <g class="pupila-der" style="transform-origin:7px -38px">
+          <circle cx="7" cy="-38" r="2.1" fill="#080608"/>
+          <circle cx="8.2" cy="-39.2" r="1.1" fill="white" opacity=".97"/>
+        </g>
+        <path d="M1,-38 Q7,-45 13,-38" stroke="#160c06" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M1.5,-38 Q7,-33 12.5,-38" stroke="#c08878" stroke-width=".7" fill="none" stroke-linecap="round" opacity=".4"/>
+        <line x1="13" y1="-39" x2="15" y2="-42" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="10" y1="-43" x2="11.5" y2="-46" stroke="#100808" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="7" y1="-43.5" x2="7" y2="-47" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="4" y1="-43" x2="3.5" y2="-46" stroke="#100808" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="1" y1="-39" x2="-1" y2="-42" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+      </g>
+ 
+      <!-- MEJILLAS: entre ojos y boca -->
+      <ellipse cx="-9" cy="-31" rx="5" ry="2.8" fill="#ffb0c8" opacity=".3"/>
+      <ellipse cx="9" cy="-31" rx="5" ry="2.8" fill="#ffb0c8" opacity=".3"/>
+      <!-- NARIZ: centro de la cara (-36), nariz a -29 -->
+      <circle cx="-2" cy="-29" r="1.3" fill="#e0b0a0" opacity=".55"/>
+      <circle cx="2" cy="-29" r="1.3" fill="#e0b0a0" opacity=".55"/>
+      <path d="M-3,-27.5 Q0,-26 3,-27.5" stroke="#d09080" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <!-- BOCA: en -24, bien dentro de la cara (abajo -21) -->
+      <path d="M-5,-24 Q0,-21 5,-24" stroke="#e05870" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M-5,-24 Q-2.5,-22.5 0,-22 Q2.5,-22.5 5,-24 Q2.5,-20 0,-19.5 Q-2.5,-20 -5,-24Z" fill="#e87888" opacity=".58"/>
+ 
+      <!-- brazos -->
+      <path d="M-13,-4 Q-24,5 -30,14 Q-34,20 -32,25" stroke="#fff4ee" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+      <circle cx="-32" cy="26" r="4.5" fill="#fff4ee"/>
+      <path d="M13,-4 Q22,-17 26,-32 Q28,-41 24,-47" stroke="#fff4ee" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <circle cx="24" cy="-48" r="3.8" fill="#fff4ee"/>
+    </g>
+ 
+    <!-- ══════════════════ CHICO ══════════════════ -->
+    <g transform="translate(600,510)">
+      <ellipse cx="4" cy="18" rx="30" ry="6" fill="#0a0018" opacity=".45"/>
+ 
+      <!-- piernas pantalón negro -->
+      <path d="M9,14 Q22,26 40,28 Q49,28 53,22" stroke="#0e0e1a" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <path d="M-9,14 Q-15,27 -11,33 Q-7,37 -3,34" stroke="#0e0e1a" stroke-width="11" stroke-linecap="round" fill="none"/>
+      <ellipse cx="53" cy="24" rx="10" ry="5" fill="#080810"/>
+      <ellipse cx="-9" cy="35" rx="8" ry="4.5" fill="#080810"/>
+ 
+      <!-- cuerpo chaqueta negra -->
+      <path d="M-15,12 Q-14,-8 -5,-23 Q0,-28 5,-23 Q14,-8 15,12Z" fill="url(#gJacket)"/>
+      <path d="M-7,-21 Q0,-16 7,-21 Q4,-12 0,-10 Q-4,-12 -7,-21Z" fill="#252535"/>
+      <line x1="0" y1="-13" x2="0" y2="10" stroke="#2a2a40" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="0" cy="-13" r="1.5" fill="#3a3a50"/>
+      <path d="M-15,12 Q-14,0 -13,-10" stroke="#1c1c2c" stroke-width="1" fill="none" opacity=".7"/>
+      <path d="M15,12 Q14,0 13,-10" stroke="#1c1c2c" stroke-width="1" fill="none" opacity=".7"/>
+ 
+      <!-- cuello piel -->
+      <rect x="-4.5" y="-25" width="9" height="10" rx="4.5" fill="#fff5f0"/>
+ 
+      <!-- CABEZA -->
+      <circle cx="0" cy="-39" r="16" fill="url(#gSkinM)"/>
+ 
+      <!-- PELO NEGRO CORTO (solo arriba, cubierto en parte por la gorra) -->
+      <!-- pelo en los lados de la cabeza (debajo de la gorra) -->
+      <path d="M-15,-45 Q-17,-40 -17,-32 Q-17,-24 -15,-18 Q-13,-15 -12,-17 Q-11,-22 -11,-30 Q-11,-40 -13,-45Z" fill="#0c0a14"/>
+      <path d="M15,-45 Q17,-40 17,-32 Q17,-24 15,-18 Q13,-15 12,-17 Q11,-22 11,-30 Q11,-40 13,-45Z" fill="#0c0a14"/>
+      <!-- pelo en la nuca (debajo de la gorra, parte de atrás) -->
+      <path d="M-15,-45 Q-16,-50 0,-52 Q16,-50 15,-45 Q10,-43 0,-42 Q-10,-43 -15,-45Z" fill="#0d0b15"/>
+ 
+      <!-- ══ GORRA NEGRA ══ -->
+      <!-- parte trasera de la gorra (detrás de la cabeza) -->
+      <path d="M-15,-45 Q-17,-52 0,-56 Q17,-52 15,-45Z" fill="#141420"/>
+      <!-- copa de la gorra -->
+      <path d="M-15,-45 Q-14,-58 0,-63 Q14,-58 15,-45 Q10,-42 0,-41 Q-10,-42 -15,-45Z" fill="#111118"/>
+      <!-- visera delantera -->
+      <path d="M-16,-45 Q-24,-44 -28,-41 Q-26,-38 -20,-39 Q-16,-40 -15,-43Z" fill="#0a0a12"/>
+      <!-- detalle interior visera -->
+      <path d="M-16,-44 Q-22,-43 -26,-41" stroke="#1a1a26" stroke-width="1" fill="none"/>
+      <!-- costura central de la gorra -->
+      <line x1="0" y1="-62" x2="0" y2="-42" stroke="#1e1e2c" stroke-width="1.4"/>
+      <!-- costuras laterales -->
+      <path d="M-14,-45 Q-13,-54 -6,-61" stroke="#1a1a28" stroke-width=".9" fill="none"/>
+      <path d="M14,-45 Q13,-54 6,-61" stroke="#1a1a28" stroke-width=".9" fill="none"/>
+      <!-- botón en la cima -->
+      <circle cx="0" cy="-62" r="2" fill="#1c1c28" stroke="#252532" stroke-width=".8"/>
+      <!-- banda interior de la gorra -->
+      <path d="M-15,-45 Q0,-47 15,-45" stroke="#1c1c2a" stroke-width="2" fill="none"/>
+ 
+      <!-- CEJAS (debajo de la gorra, bien posicionadas) -->
+      <path d="M-13,-48 Q-7,-52 -2,-49" stroke="#180e06" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <path d="M2,-49 Q7,-52 13,-48" stroke="#180e06" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+ 
+      <!-- OJO IZQUIERDO -->
+      <g class="ojo-izq" style="transform-origin:-8px -41px">
+        <ellipse cx="-8" cy="-41" rx="7" ry="6" fill="white"/>
+        <circle cx="-8" cy="-41" r="4.5" fill="#3c2010"/>
+        <g class="pupila-izq" style="transform-origin:-8px -41px">
+          <circle cx="-8" cy="-41" r="2.7" fill="#080608"/>
+          <circle cx="-6.2" cy="-42.8" r="1.4" fill="white" opacity=".97"/>
+          <circle cx="-9.8" cy="-40" r=".65" fill="white" opacity=".62"/>
+        </g>
+        <!-- párpado superior -->
+        <path d="M-15,-41 Q-8,-50 -1,-41" stroke="#180e06" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- párpado inferior -->
+        <path d="M-14.5,-41 Q-8,-35 -1.5,-41" stroke="#b07060" stroke-width=".8" fill="none" stroke-linecap="round" opacity=".38"/>
+        <!-- pestañas masculinas (más cortas) -->
+        <line x1="-15" y1="-42.5" x2="-17" y2="-45.5" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="-11.5" y1="-47" x2="-13" y2="-50" stroke="#100808" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="-8" y1="-47.5" x2="-8" y2="-51" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="-4.5" y1="-47" x2="-4" y2="-50" stroke="#100808" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="-1" y1="-42.5" x2="1" y2="-45.5" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+      </g>
+ 
+      <!-- OJO DERECHO -->
+      <g class="ojo-der" style="transform-origin:8px -41px">
+        <ellipse cx="8" cy="-41" rx="7" ry="6" fill="white"/>
+        <circle cx="8" cy="-41" r="4.5" fill="#3c2010"/>
+        <g class="pupila-der" style="transform-origin:8px -41px">
+          <circle cx="8" cy="-41" r="2.7" fill="#080608"/>
+          <circle cx="9.8" cy="-42.8" r="1.4" fill="white" opacity=".97"/>
+          <circle cx="6.2" cy="-40" r=".65" fill="white" opacity=".62"/>
+        </g>
+        <path d="M1,-41 Q8,-50 15,-41" stroke="#180e06" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M1.5,-41 Q8,-35 14.5,-41" stroke="#b07060" stroke-width=".8" fill="none" stroke-linecap="round" opacity=".38"/>
+        <line x1="15" y1="-42.5" x2="17" y2="-45.5" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="11.5" y1="-47" x2="13" y2="-50" stroke="#100808" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="8" y1="-47.5" x2="8" y2="-51" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="4.5" y1="-47" x2="4" y2="-50" stroke="#100808" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="1" y1="-42.5" x2="-1" y2="-45.5" stroke="#100808" stroke-width="1.4" stroke-linecap="round"/>
+      </g>
+ 
+      <!-- mejillas -->
+      <ellipse cx="-10" cy="-33" rx="5.5" ry="3" fill="#f8a8a0" opacity=".25"/>
+      <ellipse cx="10" cy="-33" rx="5.5" ry="3" fill="#f8a8a0" opacity=".25"/>
+      <!-- nariz -->
+      <circle cx="-2.5" cy="-29" r="1.6" fill="#e0b8a8" opacity=".55"/>
+      <circle cx="2.5" cy="-29" r="1.6" fill="#e0b8a8" opacity=".55"/>
+      <path d="M-4,-27.5 Q0,-25.5 4,-27.5" stroke="#c89070" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <!-- boca -->
+      <path d="M-6,-23 Q0,-19.5 6,-23" stroke="#c05848" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M-6,-23 Q-3,-21.5 0,-21 Q3,-21.5 6,-23 Q3,-19 0,-18.5 Q-3,-19 -6,-23Z" fill="#cc6858" opacity=".48"/>
+ 
+      <!-- brazos manga negra -->
+      <path d="M15,-3 Q30,6 36,14 Q40,20 38,26" stroke="#0e0e1a" stroke-width="8" stroke-linecap="round" fill="none"/>
+      <circle cx="38" cy="27" r="5.5" fill="#fff5f0"/>
+      <path d="M-15,-3 Q-32,-1 -46,1" stroke="#0e0e1a" stroke-width="7.5" stroke-linecap="round" fill="none"/>
+      <circle cx="-47" cy="1" r="5" fill="#fff5f0"/>
+    </g>
+ 
+    <!-- corazón animado entre los dos -->
+    <g transform="translate(501,474)">
+      <path d="M0,-13 C-4,-21 -16,-21 -16,-10 C-16,2 0,15 0,15 C0,15 16,2 16,-10 C16,-21 4,-21 0,-13Z" fill="#ff4080" opacity=".94">
+        <animate attributeName="d" dur="1.2s" repeatCount="indefinite"
+          values="M0,-13 C-4,-21 -16,-21 -16,-10 C-16,2 0,15 0,15 C0,15 16,2 16,-10 C16,-21 4,-21 0,-13Z;
+                  M0,-14 C-4.5,-23 -18,-23 -18,-11 C-18,3 0,17 0,17 C0,17 18,3 18,-11 C18,-23 4.5,-23 0,-14Z;
+                  M0,-13 C-4,-21 -16,-21 -16,-10 C-16,2 0,15 0,15 C0,15 16,2 16,-10 C16,-21 4,-21 0,-13Z"/>
+      </path>
+      <path d="M0,-13 C-4,-21 -16,-21 -16,-10 C-16,2 0,15 0,15 C0,15 16,2 16,-10 C16,-21 4,-21 0,-13Z" fill="none" stroke="#ff90c0" stroke-width="1.5" opacity=".6"/>
+    </g>
+ 
+    <!-- estrellas fijas SVG -->
+    <circle cx="104" cy="85" r="1.7" fill="#fff" opacity=".9"/>
+    <circle cx="210" cy="55" r="2.1" fill="#fff" opacity=".85"/>
+    <circle cx="760" cy="75" r="1.9" fill="#ffe0ff" opacity=".8"/>
+    <circle cx="888" cy="50" r="1.7" fill="#fff" opacity=".9"/>
+    <circle cx="310" cy="96" r="1.3" fill="#e6ceff" opacity=".7"/>
+    <circle cx="660" cy="106" r="1.5" fill="#fff" opacity=".75"/>
+    <circle cx="444" cy="42" r="1.4" fill="#ffd0ff" opacity=".7"/>
+    <circle cx="564" cy="32" r="1.9" fill="#fff" opacity=".8"/>
+    <circle cx="156" cy="130" r="1.2" fill="#fff" opacity=".65"/>
+    <circle cx="842" cy="118" r="1.3" fill="#ffe8ff" opacity=".7"/>
+  </svg>
+</div>
+ 
+<!-- CARTA -->
+<div id="cartaSection">
+  <div class="cw">
+    <div class="sobre" id="sobre">
+      <div class="sobre-body">
+        <div class="flap-wrap">
+          <svg class="flap" viewBox="0 0 500 130" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">
+            <defs><linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8800b0"/><stop offset="100%" stop-color="#4e0078"/></linearGradient></defs>
+            <polygon points="0,0 500,0 250,130" fill="url(#fg)"/>
+            <polygon points="0,0 250,130 500,0" fill="none" stroke="#cc58ee" stroke-width="1.3"/>
+            <path d="M250,71 C244,59 231,59 231,67 C231,77 250,86 250,86 C250,86 269,77 269,67 C269,59 256,59 250,71Z" fill="#ff68b4"/>
+          </svg>
+        </div>
+        <div class="sobre-in"><div class="hint" id="hint">Haz clic para abrir la carta 💌</div></div>
+      </div>
+      <button class="btn-open" id="btnO">Abrir carta ♥</button>
+    </div>
+ 
+    <div class="papel" id="papel">
+      <div class="hc" id="hc"></div>
+      <div class="p-date">Como una nebulosa que crea estrellas silenciosamente, asi nacen estas palabras que son solo para johanita la mas guapetona</div>
+      <div class="p-sal">Johanita,</div>
+      <p>Hay sentimientos que son dificiles de explicar, como el misterio que habita en las nebulosas del universo.Asi es lo que piento por ti:Algo inmenso, profundo y lleno de luz</p>
+      <p>A veces intento encontrar las palabras correctas, pero siempre se quedan cortas frente a todo lo que provocas en mi corazon. <em>desde que llegastes a mi vida guapetona, cada pensamiento parece girar alrededor de ti,</em></p>
+      <p>como si fueras la estrella que ilumina mi propio universo. Y aunque el cosmos sea infinito, nada se compara con lo que siento cuando te veo guapa.</p>
+      <p>por que en medio de todo ese universo... mi lugar favorito siempre sera estar a tu lado. ✦</p>
+      <div class="p-firm">La luna te mira callada, y en su luz te quiere abrazar, por que hasta en la noche mas fria siempre te va a amar  Muaaaa ♥</div>
+      <button class="btn-close" id="btnC">Cerrar carta</button>
+    </div>
+  </div>
+</div>
+ 
+<script>
+const canvas=document.getElementById('starCanvas'),ctx=canvas.getContext('2d');
+let W,H,stars=[],shooters=[];
+function init(){const s=document.getElementById('scene');W=canvas.width=s.offsetWidth;H=canvas.height=s.offsetHeight;stars=Array.from({length:290},()=>({x:Math.random()*W,y:Math.random()*H*.73,r:Math.random()*1.9+.28,a:Math.random(),da:(Math.random()*.008+.002)*(Math.random()<.5?1:-1),c:Math.random()<.08?[255,178,255]:Math.random()<.07?[178,218,255]:[255,255,255]}))}
+function shoot(){shooters.push({x:Math.random()*W*.76+W*.1,y:Math.random()*H*.4,l:Math.random()*125+58,sp:Math.random()*8+5,a:1,ang:Math.PI/5+Math.random()*.42})}
+function draw(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.a+=s.da;if(s.a>1||s.a<.06)s.da*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(${s.c[0]},${s.c[1]},${s.c[2]},${s.a})`;ctx.fill()});shooters=shooters.filter(s=>s.a>.02);shooters.forEach(s=>{ctx.save();ctx.translate(s.x,s.y);ctx.rotate(s.ang);const g=ctx.createLinearGradient(-s.l,0,6,0);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(.62,`rgba(255,218,255,${s.a*.5})`);g.addColorStop(1,`rgba(255,255,255,${s.a})`);ctx.beginPath();ctx.moveTo(-s.l,0);ctx.lineTo(6,0);ctx.strokeStyle=g;ctx.lineWidth=2.5;ctx.stroke();ctx.beginPath();ctx.arc(6,0,3,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.a})`;ctx.fill();ctx.restore();s.x+=Math.cos(s.ang)*s.sp;s.y+=Math.sin(s.ang)*s.sp;s.a-=.02});requestAnimationFrame(draw)}
+setInterval(shoot,820);init();window.addEventListener('resize',init);draw();
+ 
+const sobre=document.getElementById('sobre'),hint=document.getElementById('hint'),btnO=document.getElementById('btnO'),papel=document.getElementById('papel'),btnC=document.getElementById('btnC'),hc=document.getElementById('hc');
+function openL(){sobre.classList.add('open');hint.style.opacity='0';btnO.style.display='none';setTimeout(()=>{sobre.style.display='none';papel.classList.add('show');papel.style.display='block';hearts()},790)}
+function closeL(){papel.classList.remove('show');papel.style.display='none';sobre.style.display='block';sobre.classList.remove('open');hint.style.opacity='1';btnO.style.display='block';hc.innerHTML=''}
+function hearts(){const s=['♥','❤','✦','✧','⭐','💕','💖'];for(let i=0;i<20;i++)setTimeout(()=>{const h=document.createElement('span');h.className='hrt';h.textContent=s[Math.floor(Math.random()*s.length)];h.style.cssText=`left:${7+Math.random()*86}%;bottom:0;color:hsl(${308+Math.random()*52},90%,${60+Math.random()*20}%);animation-duration:${(2.7+Math.random()*2.6).toFixed(1)}s;animation-delay:${(Math.random()*1.9).toFixed(1)}s;font-size:${12+Math.random()*15}px`;hc.appendChild(h)},i*78)}
+btnO.addEventListener('click',openL);sobre.addEventListener('click',openL);btnC.addEventListener('click',closeL);
+</script>
+</body>
+</html>
